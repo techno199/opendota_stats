@@ -1,0 +1,32 @@
+<div class="root">
+  <div class="chart">
+  <kendo-chart [title]="{ text: 'Popularity to Greed ratio' }">
+    <kendo-chart-series>
+      <kendo-chart-series-item
+        type="scatter"
+        [data]="chartData | async"
+        xField="ratio"
+        yField="popularity"
+      >
+        <kendo-chart-series-item-tooltip>
+          <ng-template let-dataItem="dataItem">
+            {{ dataItem.localized_name }}
+          </ng-template>
+        </kendo-chart-series-item-tooltip>
+      </kendo-chart-series-item>
+    </kendo-chart-series>
+  </kendo-chart>
+  <div *ngIf="isLoading" class="k-i-loading"></div>
+  
+  <button kendoButton [disabled]="isLoading" (click)="handleReloadClick()">Reload</button>
+  <div class="error" *ngIf="isError">Ошибка таймаута при загрузке данных с сервера Opendota. Можно попробовать подгрузить еще раз.</div>
+</div>
+
+<kendo-grid 
+  [data]="gridData | async"
+  [sortable]="{ allowUnsort: false }"
+  [sort]="sort"
+  (sortChange)="handleSortChange($event)"
+>
+</kendo-grid>
+</div>
